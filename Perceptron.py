@@ -75,21 +75,24 @@ class Perceptron:
 				plt.title('N = %s, Iteration %s' % (str(len(self.X)), str(i+1)))
 				plt.savefig('p_N%s_it%s' % (str(len(self.X)), str(i+1)), dpi=200, bbox_inches='tight') 
 		self.w = w
-	def trainingAdaline(self, it, eta):
+	def trainingAdaline(self, it, eta, save=False):
 		w = np.array([rnd.uniform(-1, 1) for i in range(3)])
 		for i in range(it):
-			msPt = []
+			#msPt = []
 			for Xi in self.X:
 				vec = Xi[0]
 				classification = Xi[1]
 				out = int(np.sign(w.T.dot(vec)))
 				error = out - classification
 				w += error*eta*vec
-
+			if save:
+				plt.title('N = %s, Iteration %s' % (str(len(self.X)), str(i+1)))
+				plt.savefig('p_Adaline_N%s_it%s' % (str(len(self.X)), str(i+1)), dpi=200, bbox_inches='tight') 
+		self.w = w
 
 
 MCP = Perceptron(80)
-MCP.trainingVanilla(20, save=True)
+MCP.trainingAdaline(20, 0.2, save=True)
 basedir = 'C:\Users\danilo.souza\Documents\UFPE\Neural Network Playground'
 os.chdir(basedir)
 pngs = [pl for pl in os.listdir(basedir) if pl.endswith('png')]
